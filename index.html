@@ -3,212 +3,403 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urdu & Hindi Stylish Text Generator</title>
+    <title>Urdu Hindi Stylish Font Generator | اسٹائلش ٹیکسٹ جنریٹر</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.4);
+            --accent: #ec4899;
+            --bg: #0b0f19;
+            --card: rgba(23, 30, 48, 0.7);
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #f8fafc;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', 'Noto Nastaliq Urdu', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
+
         body {
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: #fff;
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.15) 0px, transparent 50%);
+            color: var(--text);
             min-height: 100vh;
+            padding: 15px;
             display: flex;
             justify-content: center;
-            padding: 20px;
         }
-        .container {
+
+        .wrapper {
             width: 100%;
-            max-width: 650px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            padding: 25px;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-width: 680px;
         }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin: 15px 0 25px;
+        }
+
+        .badge {
+            background: linear-gradient(90deg, #6366f1, #ec4899);
+            color: white;
+            font-size: 11px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
         h1 {
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 8px;
-            color: #38bdf8;
+            font-size: 26px;
+            margin-top: 10px;
+            background: linear-gradient(135deg, #fff 40%, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        p.subtitle {
-            text-align: center;
-            font-size: 14px;
+
+        p.desc {
             color: #94a3b8;
-            margin-bottom: 20px;
+            font-size: 13px;
+            margin-top: 5px;
         }
+
+        /* Input Area */
+        .input-box {
+            position: relative;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 15px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5);
+        }
+
         textarea {
             width: 100%;
             height: 90px;
-            padding: 12px;
-            background: #0f172a;
-            border: 2px solid #334155;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 16px;
+            background: transparent;
+            border: none;
             outline: none;
+            color: #fff;
+            font-size: 18px;
             resize: none;
-            transition: 0.3s;
         }
-        textarea:focus {
-            border-color: #38bdf8;
-        }
-        .results {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .card {
-            background: #1e293b;
-            padding: 12px 16px;
-            border-radius: 8px;
+
+        .input-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid #334155;
-            transition: transform 0.2s, border-color 0.2s;
+            border-top: 1px solid var(--border);
+            padding-top: 10px;
+            font-size: 12px;
+            color: #64748b;
         }
+
+        .clear-btn {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        /* Tabs Filter */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 15px 0 10px;
+            scrollbar-width: none;
+        }
+        .tabs::-webkit-scrollbar { display: none; }
+
+        .tab {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: #94a3b8;
+            padding: 7px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        /* Results */
+        .results-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+            margin-bottom: 50px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(8px);
+            transition: 0.2s transform, 0.2s border-color;
+        }
+
         .card:hover {
-            border-color: #38bdf8;
+            border-color: rgba(99, 102, 241, 0.4);
             transform: translateY(-2px);
         }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            overflow: hidden;
+        }
+
+        .style-tag {
+            font-size: 10px;
+            color: #6366f1;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
         .text-output {
             font-size: 16px;
             word-break: break-word;
-            padding-right: 10px;
+            color: #f1f5f9;
         }
-        .copy-btn {
-            background: #0284c7;
-            border: none;
+
+        /* Action Buttons */
+        .actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .btn-action {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
             color: #fff;
-            padding: 6px 14px;
-            border-radius: 6px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
             cursor: pointer;
-            font-size: 13px;
-            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 4px;
             transition: 0.2s;
         }
-        .copy-btn:hover {
-            background: #38bdf8;
+
+        .btn-copy {
+            background: var(--primary);
+            border-color: var(--primary);
         }
+
+        .btn-copy:hover {
+            opacity: 0.9;
+        }
+
+        .btn-wa {
+            background: #22c55e;
+            border-color: #22c55e;
+        }
+
+        /* Toast */
         .toast {
             position: fixed;
-            bottom: 20px;
+            bottom: 25px;
             left: 50%;
-            transform: translateX(-50%);
-            background: #22c55e;
+            transform: translateX(-50%) translateY(100px);
+            background: #10b981;
             color: #fff;
-            padding: 8px 18px;
-            border-radius: 20px;
+            padding: 10px 22px;
+            border-radius: 30px;
             font-size: 14px;
-            display: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            font-weight: 600;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            transition: 0.3s transform ease;
+            z-index: 1000;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>✨ Stylish Text Generator ✨</h1>
-    <p class="subtitle">اردو، ہندی یا انگلش ٹیکسٹ لکھیں اور اسٹائلش فونٹس حاصل کریں</p>
+<div class="wrapper">
+    <header>
+        <span class="badge">🔥 VIP Tool</span>
+        <h1>اسٹائلش ٹیکسٹ جنریٹر</h1>
+        <p class="desc">اردو، ہندی یا رومن میں لکھیں اور واٹس ایپ، انسٹاگرام یا گیمنگ بائیو کے لیے کاپی کریں</p>
+    </header>
 
-    <textarea id="inputText" placeholder="یہاں ٹیکسٹ لکھیں (Type Urdu, Hindi or English)..."></textarea>
-
-    <div class="results" id="resultsList">
-        <!-- اسٹائلش ٹیکسٹ یہاں شو ہوں گے -->
+    <!-- Input -->
+    <div class="input-box">
+        <textarea id="inputText" placeholder="یہاں کچھ بھی ٹائپ کریں... (Type text here)"></textarea>
+        <div class="input-footer">
+            <span id="charCount">حروف: 0</span>
+            <button class="clear-btn" onclick="clearInput()">صاف کریں (Clear)</button>
+        </div>
     </div>
+
+    <!-- Category Tabs -->
+    <div class="tabs">
+        <button class="tab active" onclick="filterTab('all', this)">✨ سبھی (All)</button>
+        <button class="tab" onclick="filterTab('urdu', this)">👑 اردو و ہندی فریمز</button>
+        <button class="tab" onclick="filterTab('gaming', this)">🎮 پب جی و فری فائر</button>
+        <button class="tab" onclick="filterTab('fancy', this)">🔤 فینسی فونٹس</button>
+        <button class="tab" onclick="filterTab('love', this)">❤️ پیار و ایموجی</button>
+    </div>
+
+    <!-- Generated List -->
+    <div class="results-container" id="resultsList"></div>
 </div>
 
-<div class="toast" id="toast">کاپی ہو گیا! (Copied)</div>
+<div class="toast" id="toast">✅ کامیابی سے کاپی ہو گیا!</div>
 
 <script>
     const input = document.getElementById('inputText');
     const resultsList = document.getElementById('resultsList');
+    const charCount = document.getElementById('charCount');
     const toast = document.getElementById('toast');
+    let currentCategory = 'all';
 
-    // آرائشی سمبلز (یہ اردو اور ہندی پر بھی کام کرتے ہیں)
-    const decorators = [
-        t => `★彡 ${t} 彡★`,
-        t => `꧁༒ ${t} ༒꧂`,
-        t => `░▒▓█ ${t} █▓▒░`,
-        t => `『 ${t} 』`,
-        t => `༺ ${t} ༻`,
-        t => `⚡ ${t} ⚡`,
-        t => `♛ ${t} ♛`,
-        t => `★·.·´¯\`·.·★ ${t} ★·.·´¯\`·.·★`,
-        t => `✧○ꊞ○✧ ${t} ✧○ꊞ○✧`,
-        t => `【 ${t} 】`
-    ];
-
-    // انگلش / رومن اردو کے فونٹس میپ
-    const fancyMaps = {
+    // انگلش میپس
+    const maps = {
         bold: '𝗮𝗯𝗰𝗱𝗲𝗳𝗴𝗵𝗶𝗷𝗸𝗹𝗺𝗻𝗼𝗽𝗾𝗿𝘀𝘁𝘂𝘃𝘄𝘅𝘆𝘇𝗔𝗕𝗖𝗗𝗘𝗙𝗚𝗛𝗜𝗝𝗞𝗟𝗠𝗡𝗢𝗣𝗤𝗥𝗦𝗧𝗨𝗩𝗪𝗫𝗬𝗭',
         italic: '𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛𝘜𝘝𝘞𝘟𝘠𝘡',
         script: '𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣𝓤𝓥𝓦𝓧𝓨𝓩',
-        gothic: '𝖆𝖇𝖈𝖉𝖊𝖋𝖌𝖍𝖎𝖏𝖐𝖑𝖒𝖓𝖔𝖕𝖖𝖗𝖘𝖙𝖚𝖛𝖜𝖝𝖞𝖟𝕬𝕭𝕮𝕯𝕰𝕱𝕲𝕳𝕴𝕵𝕶𝕷𝕸𝕹𝕺𝕻𝕼𝕽𝕾𝕿𝖀𝖁𝖂𝖃𝖄𝖅'
+        gothic: '𝖆𝖇𝖈𝖉𝖊𝖋𝖌𝖍𝖎𝖏𝖐𝖑𝖒𝖓𝖔𝖕𝖖𝖗𝖘𝖙𝖚𝖛𝖜𝖝𝖞𝖟𝕬𝕭𝕮𝕯𝕰𝕱𝕲𝕳𝕴𝕵𝕶𝕷𝕸𝕹𝕺𝕻𝕼𝕽𝕾𝕿𝖀𝖁𝖂𝖃𝖄𝖅',
+        double: '𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ',
+        circles: 'ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ',
+        squares: '🆂🆃🆈🅻🅸🆂🅷' // fallback reference
     };
 
-    function convertFancy(text, style) {
+    function mapText(str, type) {
         const normal = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const target = fancyMaps[style];
-        return text.split('').map(char => {
-            const idx = normal.indexOf(char);
-            return idx !== -1 ? Array.from(target)[idx] : char;
+        const target = maps[type];
+        if (!target) return str;
+        return str.split('').map(c => {
+            let i = normal.indexOf(c);
+            return i !== -1 ? Array.from(target)[i] : c;
         }).join('');
     }
 
-    function generate() {
-        const val = input.value.trim();
+    // کیٹیگری وائز اسٹائلز لسٹ
+    const templates = [
+        // Urdu & Hindi Frames
+        { cat: 'urdu', name: 'شاہی فریم', fn: t => `★彡[ ${t} ]彡★` },
+        { cat: 'urdu', name: 'گولڈن بارڈر', fn: t => `░▒▓█►─═ ${t} ═─◄█▓▒░` },
+        { cat: 'urdu', name: 'عربی اسٹائل', fn: t => `『 ${t} 』` },
+        { cat: 'urdu', name: 'سلطان فریم', fn: t => `♛ ${t} ♛` },
+        { cat: 'urdu', name: 'ڈبل لائن', fn: t => `«-— ${t} —-»` },
+        { cat: 'urdu', name: 'سادہ بیوٹی', fn: t => `【 ${t} 】` },
+
+        // Gaming (PUBG/FreeFire)
+        { cat: 'gaming', name: 'پب جی لیجنڈ', fn: t => `꧁༒☬ ${t} ☬༒꧂` },
+        { cat: 'gaming', name: 'کلر مافیا', fn: t => `亗『 ${t} 』亗` },
+        { cat: 'gaming', name: 'بیڈ بوائے', fn: t => `☠️ 𝖁𝕴𝕻 • ${t} ☠️` },
+        { cat: 'gaming', name: 'ہنٹر', fn: t => `⚡ 𝕿𝖍𝖊 ${t} ⚡` },
+        { cat: 'gaming', name: 'گوسٹ گیمر', fn: t => `◥꧁☠︎${t}☠︎꧂◤` },
+        { cat: 'gaming', name: 'وارئیر', fn: t => `⚔️ ༒ ${t} ༒ ⚔️` },
+
+        // Fancy Alphabets
+        { cat: 'fancy', name: 'بولڈ (Bold)', fn: t => mapText(t, 'bold') },
+        { cat: 'fancy', name: 'اٹالک (Italic)', fn: t => mapText(t, 'italic') },
+        { cat: 'fancy', name: 'کرسیو (Cursive)', fn: t => mapText(t, 'script') },
+        { cat: 'fancy', name: 'گوتھک (Royal)', fn: t => mapText(t, 'gothic') },
+        { cat: 'fancy', name: 'ڈبل لکیر (Double)', fn: t => mapText(t, 'double') },
+        { cat: 'fancy', name: 'سرکل فونٹس', fn: t => mapText(t, 'circles') },
+
+        // Love & Emoji
+        { cat: 'love', name: 'ہارٹ بیٹ', fn: t => `ﮩ٨ـﮩﮩʌـﮩ٨ـ ${t} ﮩ٨ـﮩﮩʌـﮩ٨ـ` },
+        { cat: 'love', name: 'گلاب فریم', fn: t => `🌹✨ ${t} ✨🌹` },
+        { cat: 'love', name: 'پرنسس لو', fn: t => `💖🧸 ${t} 🧸💖` },
+        { cat: 'love', name: 'چاند تارے', fn: t => `🌙✨ ⋆.ೃ࿔*:･ ${t} ･:*࿔.ೃ⋆` },
+        { cat: 'love', name: 'فریگرینس', fn: t => `🌸｡*ﾟ ${t} ﾟ*｡🌸` }
+    ];
+
+    function render() {
+        const text = input.value.trim() || 'Urdu Hindi اسٹائلش';
+        charCount.innerText = `حروف: ${input.value.length}`;
         resultsList.innerHTML = '';
 
-        if (!val) {
-            resultsList.innerHTML = '<p style="text-align:center; color:#64748b;">کچھ ٹائپ کریں تاکہ اسٹائل بن سکیں...</p>';
-            return;
-        }
+        const filtered = currentCategory === 'all' 
+            ? templates 
+            : templates.filter(item => item.cat === currentCategory);
 
-        const styles = [];
-
-        // 1. انگلش و رومن اردو اسٹائلز
-        styles.push(convertFancy(val, 'bold'));
-        styles.push(convertFancy(val, 'italic'));
-        styles.push(convertFancy(val, 'script'));
-        styles.push(convertFancy(val, 'gothic'));
-
-        // 2. ڈیکوریٹو اسٹائلز (یہ اردو، ہندی اور انگلش سب پر لگتے ہیں)
-        decorators.forEach(dec => {
-            styles.push(dec(val));
-        });
-
-        // کارڈز رینڈر کریں
-        styles.forEach(text => {
+        filtered.forEach(item => {
+            const styledText = item.fn(text);
             const card = document.createElement('div');
             card.className = 'card';
             card.innerHTML = `
-                <span class="text-output">${text}</span>
-                <button class="copy-btn" onclick="copyText('${escapeHtml(text)}')">کاپی</button>
+                <div class="card-content">
+                    <span class="style-tag">${item.name}</span>
+                    <span class="text-output">${styledText}</span>
+                </div>
+                <div class="actions">
+                    <button class="btn-action btn-copy" onclick="copy('${escapeHtml(styledText)}')">📋 کاپی</button>
+                    <button class="btn-action btn-wa" onclick="shareWA('${escapeHtml(styledText)}')">💬</button>
+                </div>
             `;
             resultsList.appendChild(card);
         });
     }
 
-    function escapeHtml(text) {
-        return text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    function escapeHtml(t) {
+        return t.replace(/'/g, "\\'").replace(/"/g, '&quot;');
     }
 
-    function copyText(text) {
+    function copy(text) {
         navigator.clipboard.writeText(text).then(() => {
-            toast.style.display = 'block';
-            setTimeout(() => { toast.style.display = 'none'; }, 2000);
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
         });
     }
 
-    input.addEventListener('input', generate);
-    generate();
+    function shareWA(text) {
+        const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+        window.open(url, '_blank');
+    }
+
+    function clearInput() {
+        input.value = '';
+        render();
+    }
+
+    function filterTab(cat, btn) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = cat;
+        render();
+    }
+
+    input.addEventListener('input', render);
+    render();
 </script>
 
 </body>

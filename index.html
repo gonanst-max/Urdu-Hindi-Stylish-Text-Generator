@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ur" dir="auto">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urdu & Hindi Stylish Text Generator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 650px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #38bdf8;
+        }
+        p.subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 90px;
+            padding: 12px;
+            background: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            resize: none;
+            transition: 0.3s;
+        }
+        textarea:focus {
+            border-color: #38bdf8;
+        }
+        .results {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .card {
+            background: #1e293b;
+            padding: 12px 16px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #334155;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .card:hover {
+            border-color: #38bdf8;
+            transform: translateY(-2px);
+        }
+        .text-output {
+            font-size: 16px;
+            word-break: break-word;
+            padding-right: 10px;
+        }
+        .copy-btn {
+            background: #0284c7;
+            border: none;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            white-space: nowrap;
+            transition: 0.2s;
+        }
+        .copy-btn:hover {
+            background: #38bdf8;
+        }
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #22c55e;
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>✨ Stylish Text Generator ✨</h1>
+    <p class="subtitle">اردو، ہندی یا انگلش ٹیکسٹ لکھیں اور اسٹائلش فونٹس حاصل کریں</p>
+
+    <textarea id="inputText" placeholder="یہاں ٹیکسٹ لکھیں (Type Urdu, Hindi or English)..."></textarea>
+
+    <div class="results" id="resultsList">
+        <!-- اسٹائلش ٹیکسٹ یہاں شو ہوں گے -->
+    </div>
+</div>
+
+<div class="toast" id="toast">کاپی ہو گیا! (Copied)</div>
+
+<script>
+    const input = document.getElementById('inputText');
+    const resultsList = document.getElementById('resultsList');
+    const toast = document.getElementById('toast');
+
+    // آرائشی سمبلز (یہ اردو اور ہندی پر بھی کام کرتے ہیں)
+    const decorators = [
+        t => `★彡 ${t} 彡★`,
+        t => `꧁༒ ${t} ༒꧂`,
+        t => `░▒▓█ ${t} █▓▒░`,
+        t => `『 ${t} 』`,
+        t => `༺ ${t} ༻`,
+        t => `⚡ ${t} ⚡`,
+        t => `♛ ${t} ♛`,
+        t => `★·.·´¯\`·.·★ ${t} ★·.·´¯\`·.·★`,
+        t => `✧○ꊞ○✧ ${t} ✧○ꊞ○✧`,
+        t => `【 ${t} 】`
+    ];
+
+    // انگلش / رومن اردو کے فونٹس میپ
+    const fancyMaps = {
+        bold: '𝗮𝗯𝗰𝗱𝗲𝗳𝗴𝗵𝗶𝗷𝗸𝗹𝗺𝗻𝗼𝗽𝗾𝗿𝘀𝘁𝘂𝘃𝘄𝘅𝘆𝘇𝗔𝗕𝗖𝗗𝗘𝗙𝗚𝗛𝗜𝗝𝗞𝗟𝗠𝗡𝗢𝗣𝗤𝗥𝗦𝗧𝗨𝗩𝗪𝗫𝗬𝗭',
+        italic: '𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛𝘜𝘝𝘞𝘟𝘠𝘡',
+        script: '𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣𝓤𝓥𝓦𝓧𝓨𝓩',
+        gothic: '𝖆𝖇𝖈𝖉𝖊𝖋𝖌𝖍𝖎𝖏𝖐𝖑𝖒𝖓𝖔𝖕𝖖𝖗𝖘𝖙𝖚𝖛𝖜𝖝𝖞𝖟𝕬𝕭𝕮𝕯𝕰𝕱𝕲𝕳𝕴𝕵𝕶𝕷𝕸𝕹𝕺𝕻𝕼𝕽𝕾𝕿𝖀𝖁𝖂𝖃𝖄𝖅'
+    };
+
+    function convertFancy(text, style) {
+        const normal = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const target = fancyMaps[style];
+        return text.split('').map(char => {
+            const idx = normal.indexOf(char);
+            return idx !== -1 ? Array.from(target)[idx] : char;
+        }).join('');
+    }
+
+    function generate() {
+        const val = input.value.trim();
+        resultsList.innerHTML = '';
+
+        if (!val) {
+            resultsList.innerHTML = '<p style="text-align:center; color:#64748b;">کچھ ٹائپ کریں تاکہ اسٹائل بن سکیں...</p>';
+            return;
+        }
+
+        const styles = [];
+
+        // 1. انگلش و رومن اردو اسٹائلز
+        styles.push(convertFancy(val, 'bold'));
+        styles.push(convertFancy(val, 'italic'));
+        styles.push(convertFancy(val, 'script'));
+        styles.push(convertFancy(val, 'gothic'));
+
+        // 2. ڈیکوریٹو اسٹائلز (یہ اردو، ہندی اور انگلش سب پر لگتے ہیں)
+        decorators.forEach(dec => {
+            styles.push(dec(val));
+        });
+
+        // کارڈز رینڈر کریں
+        styles.forEach(text => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <span class="text-output">${text}</span>
+                <button class="copy-btn" onclick="copyText('${escapeHtml(text)}')">کاپی</button>
+            `;
+            resultsList.appendChild(card);
+        });
+    }
+
+    function escapeHtml(text) {
+        return text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    }
+
+    function copyText(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 2000);
+        });
+    }
+
+    input.addEventListener('input', generate);
+    generate();
+</script>
+
+</body>
+</html>
